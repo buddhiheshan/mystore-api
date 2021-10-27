@@ -14,9 +14,12 @@
     "nodemon": "^2.0.14"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "db-errors": "^0.2.3",
     "dotenv": "^10.0.0",
     "envalid": "^7.2.1",
     "express": "^4.17.1",
+    "joi": "^17.4.2",
     "knex": "^0.95.11",
     "mysql2": "^2.3.2",
     "objection": "^2.2.17"

@@ -11,10 +11,10 @@ exports.up = function (knex) {
     table.string("mobile", 10).unique().notNullable();
 
     // timestamps
-    table.timestamps(true);
+    table.timestamps(true, true);
   });
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable(tableName);
+  return knex.schema.dropTableIfExists(tableName);
 };

@@ -6,6 +6,7 @@ const DatabaseService = require("./database");
 
 // Import Routers
 const TestRouter = require("./routers/test.router");
+const AuthRouter = require("./routers/auth.router");
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ DatabaseService.init();
 // Global middlewares - auth
 
 // Routers
+app.use("/api/v1/auth", AuthRouter);
 app.use("/test", TestRouter);
 
 // Route not found handler

@@ -1,6 +1,6 @@
 const ApiException = require("./ApiException");
 
-const RouteNotFoundExceptionType = "ROUTE_NOT_FOUND";
+// const RouteNotFoundExceptionType = "ROUTE_NOT_FOUND";
 
 class RouteNotFoundException extends ApiException {
   constructor() {
@@ -8,4 +8,4 @@ class RouteNotFoundException extends ApiException {
   }
 }
 
-module.exports = { RouteNotFoundExceptionType, RouteNotFoundException };
+module.exports = { RouteNotFoundException };

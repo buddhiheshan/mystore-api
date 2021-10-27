@@ -6,10 +6,10 @@ exports.up = function (knex) {
     table.string("name", 45).notNullable();
 
     // timestamps
-    table.timestamps(true);
+    table.timestamps(true, true);
   });
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable(tableName);
+  return knex.schema.dropTableIfExists(tableName);
 };
