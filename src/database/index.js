@@ -5,7 +5,7 @@ const Knex = require("knex");
 class DatabaseService {
   static init() {
     const knex = Knex({
-      client: "mysql",
+      client: "mysql2",
       connection: env.DB_URL,
     });
 
