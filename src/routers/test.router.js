@@ -3,7 +3,7 @@ const { AuthenticationMiddleware, AuthorizathionMiddleware } = require("../middl
 
 const TestRouter = express.Router();
 
-TestRouter.get("/", AuthenticationMiddleware, AuthorizathionMiddleware(["customer", "customer"]), (req, res, next) => {
+TestRouter.get("/", AuthenticationMiddleware, AuthorizathionMiddleware(["owner", "customer"]), (req, res, next) => {
   res.send("Hello this is a test route");
 });
 

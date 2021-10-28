@@ -9,13 +9,12 @@ const createUser = async (role, data) => {
 };
 
 const getUser = async (key, value) => {
-  const [user] = await User.query().where(key, "=", value);
+  const user = await User.query().where(key, "=", value).first().withGraphFetched("roles");
   return user;
 };
 
 const getUserRoles = async (userID) => {
   let roles = await User.relatedQuery("roles").select("name").for(userID);
-  // !! Spread operator?
   roles = roles.map((role) => {
     return role.name;
   });

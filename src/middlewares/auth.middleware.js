@@ -3,19 +3,21 @@ const ForbiddenException = require("../common/exceptions/ForbiddenException");
 const jwt = require("jsonwebtoken");
 const env = require("../configs");
 const User = require("../models/user.model");
-const { getUserRoles } = require("../services/auth.service");
+const { getUserRoles, getUser } = require("../services/auth.service");
 
 const AuthenticationMiddleware = async (req, res, next) => {
   try {
     if (!req.headers.authorization) throw new UnauthorizedException("Unauthorized! Please login to proceed.");
-    const token = req.headers.authorization;
+    const [method, token] = req.headers.authorization.split(" ");
+
+    if (method !== "Bearer") throw new UnauthorizedException("Unauthorized! Please login to proceed.");
+
     const decoded = jwt.verify(token, env.SECRET, (err, decoded) => {
       if (err) throw new UnauthorizedException("Unauthorized! Please login to proceed.");
       return decoded;
     });
+    if (!(await getUser("id", decoded.user_id))) throw new UnauthorizedException("Unauthorized! Please login to proceed.");
     req.user = decoded;
-    // !! WHy check in db
-
     next();
   } catch (error) {
     next(error);
@@ -26,10 +28,10 @@ const AuthorizathionMiddleware = (rolesAllowed) => async (req, res, next) => {
   try {
     // Get roles of the user
     const roles = await getUserRoles(req.user.user_id);
-    // ! CHeck logic
+
     // Check if the role is in the allowed roles
-    const matchedRoles = roles.filter((role) => rolesAllowed.includes(role));
-    if (!matchedRoles.length) throw new ForbiddenException();
+    const matchedRoles = roles.some((role) => rolesAllowed.includes(role));
+    if (!matchedRoles) throw new ForbiddenException();
 
     next();
   } catch (error) {

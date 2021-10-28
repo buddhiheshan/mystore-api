@@ -12,8 +12,6 @@ AuthRouter.post("/staff/register", AuthenticationMiddleware, AuthorizathionMiddl
 AuthRouter.post("/customer/register", ValidationMiddleware(registerUser), userRegisterHandler("customer"));
 
 // Login Routers
-AuthRouter.post("/owner/login", ValidationMiddleware(loginUser), userLoginHandler);
-AuthRouter.post("/staff/login", ValidationMiddleware(loginUser), userLoginHandler);
-AuthRouter.post("/customer/login", ValidationMiddleware(loginUser), userLoginHandler);
+AuthRouter.post("/login", ValidationMiddleware(loginUser), userLoginHandler);
 
 module.exports = AuthRouter;

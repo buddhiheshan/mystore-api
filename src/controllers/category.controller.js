@@ -22,7 +22,6 @@ const postCatergoryHandler = async (req, res, next) => {
 const getAllCatergoriesHandler = async (req, res, next) => {
   try {
     const categories = await getAllCategories();
-    // ! count as metadata?
     res.status(200).json({
       message: "Categories fetched succefully",
       success: true,
@@ -36,7 +35,6 @@ const getAllCatergoriesHandler = async (req, res, next) => {
 const patchCategoryHandler = async (req, res, next) => {
   try {
     //   Check if category already exist
-    // !Statuscode?
     if (!(await getCategory("id", req.body.id))) throw new ConflictException("Category does not exist!");
     if (await getCategory("name", req.body.name)) throw new ConflictException("Category already exist!");
 
@@ -55,7 +53,7 @@ const patchCategoryHandler = async (req, res, next) => {
 
 const deleteCategoryHandler = async (req, res, next) => {
   try {
-    // !Statuscode?
+    // !TODO : Change exception
     if (!(await getCategory("id", req.body.id))) throw new ConflictException("Category does not exist!");
 
     await deleteCategory(req.body);

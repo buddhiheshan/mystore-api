@@ -16,8 +16,6 @@ const userRegisterHandler = (role) => async (req, res, next) => {
     // Create user
     user = await createUser(role, req.body);
 
-    // !TODO : remove password
-
     res.status(201).json({
       message: `${role} created successfully.`,
       success: true,
@@ -33,8 +31,6 @@ const userLoginHandler = async (req, res, next) => {
     // Get the user from database
     const user = await getUser("email", req.body.email);
 
-    // !TODO: Check role
-
     // Check if the user exits
     if (!user) throw new UnauthorizedException("Invalid email or password!");
 
@@ -46,11 +42,12 @@ const userLoginHandler = async (req, res, next) => {
       expiresIn: env.TOKEN_VALIDITY,
     });
 
-    // !TODO: Add role to response object
+    const roles = user.roles.map((role) => role.name);
+
     const data = {
       firstName: user.firstName,
       lastName: user.lastName,
-      // role: user.role,
+      roles,
     };
 
     res.status(200).json({

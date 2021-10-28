@@ -12,6 +12,12 @@ class User extends Model {
     this.password = await bcrypt.hash(this.password, salt);
   }
 
+  $formatJson(json) {
+    json = super.$formatJson(json);
+    delete json.password;
+    return json;
+  }
+
   static relationMappings = {
     roles: {
       relation: Model.ManyToManyRelation,
