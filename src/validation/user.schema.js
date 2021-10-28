@@ -9,6 +9,10 @@ const Schema = {
     address: Joi.string().required().max(255),
     mobile: Joi.string().pattern(new RegExp("^[0-9]{10}$")).required(),
   }),
+  loginUser: Joi.object({
+    email: Joi.string().email().required().max(255),
+    password: Joi.string().required(),
+  }),
 };
 
 module.exports = Schema;

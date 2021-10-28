@@ -1,6 +1,7 @@
 const { wrapError, DBError, UniqueViolationError, NotNullViolationError } = require("db-errors");
 
 const ExceptionHandler = (error, req, res, next) => {
+  console.log(error);
   error = wrapError(error);
 
   const isServerError = error.statusCode >= 500 || error instanceof DBError || error instanceof UniqueViolationError || error instanceof NotNullViolationError;

@@ -8,4 +8,4 @@ class RouteNotFoundException extends ApiException {
   }
 }
 
-module.exports = { RouteNotFoundException };
+module.exports = RouteNotFoundException;

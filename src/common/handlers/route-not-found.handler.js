@@ -1,4 +1,4 @@
-const { RouteNotFoundException } = require("../exceptions/RouteNotFoundException");
+const RouteNotFoundException = require("../exceptions/RouteNotFoundException");
 
 const RouteNotFoundHandler = (req, res, next) => {
   const error = new RouteNotFoundException();

@@ -1,14 +1,19 @@
 const express = require("express");
-// const ValidationMiddleware = require("../common/middlewares/validation.middleware");
-// const { CreateUserDto } = require("../models/dto/create-user.dto");
-const { userRegisterHandler } = require("../controllers/auth.controller");
+const { userRegisterHandler, userLoginHandler } = require("../controllers/auth.controller");
+const { AuthenticationMiddleware, AuthorizathionMiddleware } = require("../middlewares/auth.middleware");
 const { ValidationMiddleware } = require("../middlewares/validation.middleware");
-const { registerUser } = require("../validation/user.schema");
+const { registerUser, loginUser } = require("../validation/user.schema");
 
 const AuthRouter = express.Router();
 
+// Register Routers
 AuthRouter.post("/owner/register", ValidationMiddleware(registerUser), userRegisterHandler("owner"));
-AuthRouter.post("/staff/register", ValidationMiddleware(registerUser), userRegisterHandler("staff"));
+AuthRouter.post("/staff/register", AuthenticationMiddleware, AuthorizathionMiddleware(["owner"]), ValidationMiddleware(registerUser), userRegisterHandler("staff"));
 AuthRouter.post("/customer/register", ValidationMiddleware(registerUser), userRegisterHandler("customer"));
+
+// Login Routers
+AuthRouter.post("/owner/login", ValidationMiddleware(loginUser), userLoginHandler);
+AuthRouter.post("/staff/login", ValidationMiddleware(loginUser), userLoginHandler);
+AuthRouter.post("/customer/login", ValidationMiddleware(loginUser), userLoginHandler);
 
 module.exports = AuthRouter;
