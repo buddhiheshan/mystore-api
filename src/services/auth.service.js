@@ -4,7 +4,7 @@ const User = require("../models/user.model");
 const createUser = async (role, data) => {
   const user = await User.query().insert(data);
   const roleID = await Role.query().where("name", "=", role);
-  await user.$relatedQuery("roles").relate(roleID);
+  await User.relatedQuery("roles").for(user.id).relate(roleID);
   return user;
 };
 

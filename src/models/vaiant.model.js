@@ -11,7 +11,7 @@ class Variant extends Model {
     return {
       items: {
         relation: Model.ManyToManyRelation,
-        modelClass: Items,
+        modelClass: Item,
         join: {
           from: "variant.id",
           through: {
@@ -30,7 +30,7 @@ class Variant extends Model {
           from: "variant.id",
           through: {
             from: "item_sku_variant.variant_id",
-            extra: ["extra_attribute"],
+            extra: ["value"],
             to: "item_sku_variant.sku_id",
           },
           to: "sku.id",

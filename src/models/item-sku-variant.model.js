@@ -19,7 +19,7 @@ class ItemSKUVariant extends Model {
         modelClass: Item,
         join: {
           from: "item_sku_variant.item_id",
-          to: "user.id",
+          to: "item.id",
         },
       },
 

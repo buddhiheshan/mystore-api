@@ -14,6 +14,6 @@ CategoryRouter.patch("/", AuthenticationMiddleware, AuthorizathionMiddleware(["o
 
 CategoryRouter.delete("/", AuthenticationMiddleware, AuthorizathionMiddleware(["owner"]), ValidationMiddleware(deleteCategory), deleteCategoryHandler);
 
-// CategoryRouter.get("/:CategoryID")
+// CategoryRouter.get("/:categoryID");
 
 module.exports = CategoryRouter;

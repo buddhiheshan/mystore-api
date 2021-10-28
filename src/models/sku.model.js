@@ -30,7 +30,7 @@ class SKU extends Model {
           from: "sku.id",
           through: {
             from: "item_sku_variant.sku_id",
-            extra: ["extra_attribute"],
+            extra: ["value"],
             to: "item_sku_variant.item_id",
           },
           to: "item.id",

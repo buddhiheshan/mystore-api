@@ -3,9 +3,9 @@ const tableName = "sku";
 exports.up = function (knex) {
   return knex.schema.createTable(tableName, (table) => {
     table.increments("id").primary();
-    table.string("name", 45).notNullable().unique();
+    // table.string("name", 45).notNullable().unique();
     table.integer("price").notNullable();
-    table.integer("quantitiy").notNullable();
+    table.integer("quantity").notNullable();
     table.integer("discount").notNullable();
 
     // timestamps

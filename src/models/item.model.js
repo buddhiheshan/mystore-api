@@ -1,6 +1,4 @@
 const { Model } = require("objection");
-const SKU = require("./sku.model");
-const Variant = require("./vaiant.model");
 
 class Item extends Model {
   static get tableName() {
@@ -8,8 +6,19 @@ class Item extends Model {
   }
 
   static get relationMappings() {
+    const Category = require("./category.model");
+    const SKU = require("./sku.model");
+    const Variant = require("./vaiant.model");
     return {
-      vaiants: {
+      category: {
+        relation: Model.HasOneRelation,
+        modelClass: Category,
+        join: {
+          from: "item.category_id",
+          to: "category.id",
+        },
+      },
+      variants: {
         relation: Model.ManyToManyRelation,
         modelClass: Variant,
         join: {
@@ -30,7 +39,7 @@ class Item extends Model {
           from: "item.id",
           through: {
             from: "item_sku_variant.item_id",
-            extra: ["extra_attribute"],
+            extra: ["value"],
             to: "item_sku_variant.sku_id",
           },
           to: "sku.id",
