@@ -7,6 +7,7 @@ const DatabaseService = require("./database");
 // Import Routers
 const TestRouter = require("./routers/test.router");
 const AuthRouter = require("./routers/auth.router");
+const CategoryRouter = require("./routers/category.router");
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,7 @@ DatabaseService.init();
 
 // Routers
 app.use("/api/v1/auth", AuthRouter);
+app.use("/api/v1/category", CategoryRouter);
 app.use("/test", TestRouter);
 
 // Route not found handler

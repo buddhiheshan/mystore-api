@@ -14,7 +14,6 @@ const AuthenticationMiddleware = async (req, res, next) => {
       return decoded;
     });
     req.user = decoded;
-    console.log(req.user);
     // !! WHy check in db
 
     next();
@@ -28,7 +27,7 @@ const AuthorizathionMiddleware = (rolesAllowed) => async (req, res, next) => {
     // Get roles of the user
     const roles = await getUserRoles(req.user.user_id);
     // ! CHeck logic
-    // Check is the role is in the allowed roles
+    // Check if the role is in the allowed roles
     const matchedRoles = roles.filter((role) => rolesAllowed.includes(role));
     if (!matchedRoles.length) throw new ForbiddenException();
 
