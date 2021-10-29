@@ -11,7 +11,7 @@ const createItemHandler = async (req, res, next) => {
     item = await createItem(req.body);
 
     res.status(201).json({
-      message: "Item added succefully",
+      message: "Item added succesfully",
       success: true,
       data: item,
     });

@@ -12,6 +12,7 @@ class SKU extends Model {
       variants: {
         relation: Model.ManyToManyRelation,
         modelClass: Variant,
+        filter: (query) => query.select("variant.id", "name", "value"),
         join: {
           from: "sku.id",
           through: {

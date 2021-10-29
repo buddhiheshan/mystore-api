@@ -14,8 +14,6 @@ if (env.isProduction && env.GCP_INSTANCE_CONNECTION_NAME) {
   connectionConfigs.socketPath = `/cloudsql/${env.GCP_INSTANCE_CONNECTION_NAME}`;
 }
 
-console.log(connectionConfigs);
-
 const knexConnection = Knex({
   client: "mysql2",
   connection: connectionConfigs,

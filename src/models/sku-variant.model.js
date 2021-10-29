@@ -5,7 +5,7 @@ const Variant = require("./variant.model");
 
 class ItemSKUVariant extends Model {
   static get tableName() {
-    return "item_sku_variant";
+    return "sku_variant";
   }
 
   static get idColumn() {

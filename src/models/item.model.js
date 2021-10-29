@@ -13,6 +13,7 @@ class Item extends Model {
       category: {
         relation: Model.HasOneRelation,
         modelClass: Category,
+        filter: (query) => query.select("id", "name"),
         join: {
           from: "item.categoryId",
           to: "category.id",
@@ -21,6 +22,7 @@ class Item extends Model {
       skus: {
         relation: Model.HasManyRelation,
         modelClass: SKU,
+        filter: (query) => query.select("id", "price", "quantity", "discount"),
         join: {
           from: "item.id",
           to: "sku.itemId",
