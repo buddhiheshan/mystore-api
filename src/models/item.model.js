@@ -8,6 +8,7 @@ class Item extends Model {
   static get relationMappings() {
     const Category = require("./category.model");
     const SKU = require("./sku.model");
+    const Review = require("./review.model");
 
     return {
       category: {
@@ -26,6 +27,15 @@ class Item extends Model {
         join: {
           from: "item.id",
           to: "sku.itemId",
+        },
+      },
+      reviews: {
+        relation: Model.HasManyRelation,
+        modelClass: Review,
+        // filter: (query) => query.select("id", "price", "quantity", "discount"),
+        join: {
+          from: "item.id",
+          to: "review.itemId",
         },
       },
     };

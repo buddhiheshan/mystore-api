@@ -2,7 +2,7 @@ const ApiException = require("./ApiException");
 
 class ConflictException extends ApiException {
   constructor(error) {
-    super("Conflict!", "Resource you are tryig to create already exist!", 409, error);
+    super("Conflict!", "Server state deos not match!", 409, error);
   }
 }
 

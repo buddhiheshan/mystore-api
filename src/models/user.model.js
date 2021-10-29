@@ -1,6 +1,5 @@
 const { Model } = require("objection");
 const bcrypt = require("bcrypt");
-const Role = require("./role.model");
 
 class User extends Model {
   static get tableName() {
@@ -18,19 +17,33 @@ class User extends Model {
     return json;
   }
 
-  static relationMappings = {
-    roles: {
-      relation: Model.ManyToManyRelation,
-      modelClass: Role,
-      join: {
-        from: "user.id",
-        through: {
-          from: "user_has_role.user_id",
-          to: "user_has_role.role_id",
+  static relationMappings = () => {
+    const Role = require("./role.model");
+    const Review = require("./review.model");
+
+    return {
+      roles: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Role,
+        join: {
+          from: "user.id",
+          through: {
+            from: "user_has_role.user_id",
+            to: "user_has_role.role_id",
+          },
+          to: "role.id",
         },
-        to: "role.id",
       },
-    },
+      reviews: {
+        relation: Model.HasManyRelation,
+        modelClass: Review,
+        // filter: (query) => query.select("id", "price", "quantity", "discount"),
+        join: {
+          from: "user.id",
+          to: "review.customerId",
+        },
+      },
+    };
   };
 }
 

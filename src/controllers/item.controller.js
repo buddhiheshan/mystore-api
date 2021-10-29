@@ -35,6 +35,7 @@ const getAllItemsHandler = async (req, res, next) => {
 
 const getItemHandler = async (req, res, next) => {
   try {
+    //  !Check if id valid?
     const item = await getItemByID(req.params.itemId);
 
     res.status(200).json({
