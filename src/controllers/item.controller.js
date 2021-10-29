@@ -1,5 +1,5 @@
 const ConflictException = require("../common/exceptions/ConflictException");
-const { getItem, createItem } = require("../services/item.service");
+const { getItem, createItem, getAllItems } = require("../services/item.service");
 
 const createItemHandler = async (req, res, next) => {
   try {
@@ -20,4 +20,20 @@ const createItemHandler = async (req, res, next) => {
   }
 };
 
-module.exports = { createItemHandler };
+const getAllItemsHandler = async (req, res, next) => {
+  try {
+    const items = await getAllItems();
+    res.status(200).json({
+      message: "Items fetched successfully",
+      success: true,
+      data: items,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  createItemHandler,
+  getAllItemsHandler,
+};

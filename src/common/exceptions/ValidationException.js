@@ -7,7 +7,7 @@ class ValidationException extends ApiException {
     const validationSanitized = errors.details.map((err) => {
       return err.message;
     });
-    super("Bad Request!", "One or more field can not be processed!", 400, validationSanitized);
+    super("Bad Request!", "One or more field can not be processed!", 400, validationSanitized[0]);
   }
 }
 

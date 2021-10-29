@@ -39,7 +39,12 @@ const createItem = async ({ name, category, skus }) => {
   return await Item.query().select("id", "name").withGraphFetched("[category,skus.[variants]]").where("item.id", item.id).first();
 };
 
+const getAllItems = async () => {
+  return await Item.query().select("id", "name").withGraphFetched("[category,skus.[variants]]");
+};
+
 module.exports = {
   getItem,
   createItem,
+  getAllItems,
 };
