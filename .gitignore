@@ -1,5 +1,6 @@
 # env file
 .env
+app.yaml
 
 # Node modules
 node_modules/
