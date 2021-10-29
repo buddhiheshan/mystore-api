@@ -10,10 +10,10 @@ const AuthenticationMiddleware = async (req, res, next) => {
     if (!req.headers.authorization) throw new UnauthorizedException("Unauthorized! Please login to proceed.");
     const [method, token] = req.headers.authorization.split(" ");
 
-    if (method !== "Bearer") throw new UnauthorizedException("Unauthorized! Please login to proceed.");
+    if (method !== "Bearer") throw new UnauthorizedException("Auth type invalid!");
 
     const decoded = jwt.verify(token, env.SECRET, (err, decoded) => {
-      if (err) throw new UnauthorizedException("Unauthorized! Please login to proceed.");
+      if (err) throw new UnauthorizedException("jwt malformed!");
       return decoded;
     });
     if (!(await getUser("id", decoded.user_id))) throw new UnauthorizedException("Unauthorized! Please login to proceed.");

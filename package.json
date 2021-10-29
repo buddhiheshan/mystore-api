@@ -8,12 +8,14 @@
     "create-env": "printenv > .env",
     "dev": "nodemon ./src/index.js",
     "flush": "knex migrate:rollback && knex migrate:latest",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --detectOpenHandles --verbose --runInBand"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.14"
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.14",
+    "supertest": "^6.1.6"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
