@@ -2,10 +2,10 @@ const express = require("express");
 const ExceptionHandler = require("./common/handlers/exception.handler");
 const RouteNotFoundHandler = require("./common/handlers/route-not-found.handler");
 const env = require("./configs");
-const DatabaseService = require("./database");
+const { knexConnection, initDatabase } = require("./database");
 
 // Import Routers
-const TestRouter = require("./routers/test.router");
+const HelthCheckRouter = require("./routers/helthCheck.router");
 const AuthRouter = require("./routers/auth.router");
 const CategoryRouter = require("./routers/category.router");
 const ItemsRouter = require("./routers/items.router");
@@ -15,15 +15,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Init database
-DatabaseService.init();
-
+initDatabase(knexConnection);
 // Global middlewares - auth
 
+app.get("/", (req, res, next) => {
+  res.json({
+    message: "Welcome to mystore-api v1.",
+  });
+});
+
 // Routers
+app.use("/helth", HelthCheckRouter);
 app.use("/api/v1/auth", AuthRouter);
 app.use("/api/v1/category", CategoryRouter);
 app.use("/api/v1/items", ItemsRouter);
-app.use("/test", TestRouter);
 
 // Route not found handler
 app.use(RouteNotFoundHandler);
