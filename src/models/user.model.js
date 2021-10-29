@@ -25,6 +25,7 @@ class User extends Model {
       roles: {
         relation: Model.ManyToManyRelation,
         modelClass: Role,
+        filter: (query) => query.select("id", "name"),
         join: {
           from: "user.id",
           through: {

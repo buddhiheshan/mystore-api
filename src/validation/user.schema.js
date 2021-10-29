@@ -13,6 +13,12 @@ const Schema = {
     email: Joi.string().email().required().max(255),
     password: Joi.string().required(),
   }),
+  patchUser: Joi.object({
+    firstName: Joi.string().alphanum().min(3).max(25),
+    lastName: Joi.string().alphanum().min(3).max(25),
+    address: Joi.string().max(255),
+    mobile: Joi.string().pattern(new RegExp("^[0-9]{10}$")),
+  }),
 };
 
 module.exports = Schema;

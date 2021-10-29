@@ -21,8 +21,14 @@ const getUserRoles = async (userID) => {
   return roles;
 };
 
+const patchUser = async (userId, data) => {
+  const user = await User.query().patchAndFetchById(userId, data);
+  return user;
+};
+
 module.exports = {
   createUser,
   getUser,
   getUserRoles,
+  patchUser,
 };

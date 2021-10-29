@@ -1,4 +1,4 @@
-const { createUser, getUser } = require("../services/auth.service");
+const { createUser, getUser, patchUser } = require("../services/auth.service");
 const UnauthorizedException = require("../common/exceptions/UnauthorizedException");
 const bcrypt = require("bcrypt");
 
@@ -6,6 +6,7 @@ const ApiException = require("../common/exceptions/ApiException");
 const jwt = require("jsonwebtoken");
 const env = require("../configs");
 const ConflictException = require("../common/exceptions/ConflictException");
+const ValidationException = require("../common/exceptions/ValidationException");
 
 const userRegisterHandler = (role) => async (req, res, next) => {
   try {
@@ -62,7 +63,37 @@ const userLoginHandler = async (req, res, next) => {
   }
 };
 
+const patchUserHandler = async (req, res, next) => {
+  try {
+    if (Object.keys(req.body).length === 0) throw new ValidationException([{ message: "No data to modify!" }]);
+    const user = await patchUser(req.user.user_id, req.body);
+
+    res.status(201).json({
+      message: `User updated!`,
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getUserDetailsHandler = async (req, res, next) => {
+  try {
+    const data = await getUser("id", req.user.user_id);
+    res.status(201).json({
+      message: `User updated!`,
+      success: true,
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   userLoginHandler,
   userRegisterHandler,
+  patchUserHandler,
+  getUserDetailsHandler,
 };

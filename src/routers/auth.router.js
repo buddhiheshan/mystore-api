@@ -1,8 +1,8 @@
 const express = require("express");
-const { userRegisterHandler, userLoginHandler } = require("../controllers/auth.controller");
+const { userRegisterHandler, userLoginHandler, patchUserHandler, getUserDetailsHandler } = require("../controllers/auth.controller");
 const { AuthenticationMiddleware, AuthorizathionMiddleware } = require("../middlewares/auth.middleware");
 const { ValidationMiddleware } = require("../middlewares/validation.middleware");
-const { registerUser, loginUser } = require("../validation/user.schema");
+const { registerUser, loginUser, patchUser } = require("../validation/user.schema");
 
 const AuthRouter = express.Router();
 
@@ -13,5 +13,10 @@ AuthRouter.post("/customer/register", ValidationMiddleware(registerUser), userRe
 
 // Login Routers
 AuthRouter.post("/login", ValidationMiddleware(loginUser), userLoginHandler);
+
+// Me Router
+AuthRouter.get("/me", AuthenticationMiddleware, getUserDetailsHandler);
+// !allow email change?
+AuthRouter.patch("/me", AuthenticationMiddleware, ValidationMiddleware(patchUser), patchUserHandler);
 
 module.exports = AuthRouter;
