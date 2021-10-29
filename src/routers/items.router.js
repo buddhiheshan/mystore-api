@@ -6,6 +6,6 @@ const { postItem } = require("../validation/item.schema");
 
 const ItemsRouter = express.Router();
 
-ItemsRouter.post("/", AuthenticationMiddleware, AuthorizathionMiddleware(["owner"]), ValidationMiddleware(postItem), createItemHandler);
+ItemsRouter.post("/", ValidationMiddleware(postItem), createItemHandler);
 
 module.exports = ItemsRouter;

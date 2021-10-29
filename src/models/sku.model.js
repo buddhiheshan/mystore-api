@@ -9,15 +9,15 @@ class SKU extends Model {
 
   static get relationMappings() {
     return {
-      vaiants: {
+      variants: {
         relation: Model.ManyToManyRelation,
         modelClass: Variant,
         join: {
           from: "sku.id",
           through: {
-            from: "item_sku_variant.sku_id",
+            from: "item_sku_variant.skuId",
             extra: ["value"],
-            to: "item_sku_variant.variant_id",
+            to: "item_sku_variant.variantId",
           },
           to: "variant.id",
         },
@@ -29,9 +29,9 @@ class SKU extends Model {
         join: {
           from: "sku.id",
           through: {
-            from: "item_sku_variant.sku_id",
-            extra: ["value"],
-            to: "item_sku_variant.item_id",
+            from: "item_sku_variant.skuId",
+            // extra: ["value"],
+            to: "item_sku_variant.itemId",
           },
           to: "item.id",
         },

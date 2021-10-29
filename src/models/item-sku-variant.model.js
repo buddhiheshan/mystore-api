@@ -9,34 +9,34 @@ class ItemSKUVariant extends Model {
   }
 
   static get idColumn() {
-    return ["item_id", "sku_id", "variant_id"];
+    return ["itemId", "skuId", "variantId"];
   }
 
   static get relationMappings() {
     return {
-      item: {
+      items: {
         relation: Model.BelongsToOneRelation,
         modelClass: Item,
         join: {
-          from: "item_sku_variant.item_id",
+          from: "item_sku_variant.itemId",
           to: "item.id",
         },
       },
 
-      sku: {
+      skus: {
         relation: Model.BelongsToOneRelation,
         modelClass: SKU,
         join: {
-          from: "item_sku_variant.sku_id",
+          from: "item_sku_variant.skuId",
           to: "sku.id",
         },
       },
 
-      variant: {
+      variants: {
         relation: Model.BelongsToOneRelation,
         modelClass: Variant,
         join: {
-          from: "item_sku_variant.variant_id",
+          from: "item_sku_variant.variantId",
           to: "variant.id",
         },
       },

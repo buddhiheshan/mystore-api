@@ -12,7 +12,7 @@ class Category extends Model {
       modelClass: Item,
       join: {
         from: "category.id",
-        to: "item.category_id",
+        to: "item.categoryId",
       },
     },
   };

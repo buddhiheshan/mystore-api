@@ -15,23 +15,23 @@ class Variant extends Model {
         join: {
           from: "variant.id",
           through: {
-            from: "item_sku_variant.variant_id",
-            extra: ["value"],
-            to: "item_sku_variant.items_id",
+            from: "item_sku_variant.variantId",
+            // extra: ["value"],
+            to: "item_sku_variant.itemsId",
           },
           to: "items.id",
         },
       },
 
-      sku: {
+      skus: {
         relation: Model.ManyToManyRelation,
         modelClass: SKU,
         join: {
           from: "variant.id",
           through: {
-            from: "item_sku_variant.variant_id",
-            extra: ["value"],
-            to: "item_sku_variant.sku_id",
+            from: "item_sku_variant.variantId",
+            // extra: ["value"],
+            to: "item_sku_variant.skuId",
           },
           to: "sku.id",
         },

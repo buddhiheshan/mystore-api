@@ -9,12 +9,13 @@ class Item extends Model {
     const Category = require("./category.model");
     const SKU = require("./sku.model");
     const Variant = require("./vaiant.model");
+
     return {
       category: {
         relation: Model.HasOneRelation,
         modelClass: Category,
         join: {
-          from: "item.category_id",
+          from: "item.categoryId",
           to: "category.id",
         },
       },
@@ -24,9 +25,9 @@ class Item extends Model {
         join: {
           from: "item.id",
           through: {
-            from: "item_sku_variant.item_id",
+            from: "item_sku_variant.itemId",
             extra: ["value"],
-            to: "item_sku_variant.variant_id",
+            to: "item_sku_variant.variantId",
           },
           to: "variant.id",
         },
@@ -38,9 +39,9 @@ class Item extends Model {
         join: {
           from: "item.id",
           through: {
-            from: "item_sku_variant.item_id",
-            extra: ["value"],
-            to: "item_sku_variant.sku_id",
+            from: "item_sku_variant.itemId",
+            // extra: ["value"],
+            to: "item_sku_variant.skuId",
           },
           to: "sku.id",
         },
