@@ -3,7 +3,7 @@ const { createItemHandler, getAllItemsHandler, getItemHandler } = require("../co
 const { AuthenticationMiddleware, AuthorizathionMiddleware } = require("../middlewares/auth.middleware");
 const { ValidationMiddleware } = require("../middlewares/validation.middleware");
 const { postItem } = require("../validation/item.schema");
-const { postReviewHandler } = require("../controllers/review.controller");
+const { postReviewHandler, getAllReviewsHandler } = require("../controllers/review.controller");
 
 const ItemsRouter = express.Router();
 
@@ -17,6 +17,11 @@ ItemsRouter.get("/:itemId", getItemHandler);
 
 // !TODO: /:itemId PATCH and DELETE
 
+// !TODO: Allow review placing only after order purchased
 ItemsRouter.post("/:itemId/reviews", AuthenticationMiddleware, AuthorizathionMiddleware(["customer"]), postReviewHandler);
+
+ItemsRouter.get("/:itemId/reviews", getAllReviewsHandler);
+
+// !TODO: /:itemId/review/ PATCH and DELETE
 
 module.exports = ItemsRouter;

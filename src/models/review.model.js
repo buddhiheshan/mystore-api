@@ -22,7 +22,7 @@ class Review extends Model {
       customer: {
         relation: Model.HasOneRelation,
         modelClass: User,
-        // filter: (query) => query.select("id", "price", "quantity", "discount"),
+        filter: (query) => query.select("id", "firstName", "lastName"),
         join: {
           from: "review.customerId",
           to: "user.id",

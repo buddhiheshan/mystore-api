@@ -1,6 +1,6 @@
 const ConflictException = require("../common/exceptions/ConflictException");
 const { getUser } = require("../services/auth.service");
-const { postReview } = require("../services/review.service");
+const { postReview, getAllReviews } = require("../services/review.service");
 const { getItemByID } = require("../services/item.service");
 
 const postReviewHandler = async (req, res, next) => {
@@ -28,6 +28,23 @@ const postReviewHandler = async (req, res, next) => {
   }
 };
 
+const getAllReviewsHandler = async (req, res, next) => {
+  try {
+    const item = await getItemByID(req.params.itemId);
+    if (!item) throw new ConflictException("Item does not exist!");
+
+    const reviews = await getAllReviews(req.params.itemId);
+    res.status(200).json({
+      message: "Reviews fetched successfully",
+      success: true,
+      data: reviews,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   postReviewHandler,
+  getAllReviewsHandler,
 };
