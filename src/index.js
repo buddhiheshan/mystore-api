@@ -28,7 +28,7 @@ app.get("/", (req, res, next) => {
 });
 
 // Routers
-app.use("/helth", HelthCheckRouter);
+app.use("/health", HelthCheckRouter);
 app.use("/api/v1/auth", AuthRouter);
 app.use("/api/v1/category", CategoryRouter);
 app.use("/api/v1/items", ItemsRouter);

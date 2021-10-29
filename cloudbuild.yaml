@@ -1,0 +1,21 @@
+steps:
+  - name: node:14.18.1
+    entrypoint: npm
+    args: ["install", "--production"]
+  - name: node:14.18.1
+    entrypoint: npm
+    args: ["run", "create-env"]
+    env:
+      - "MY_SECRET_KEY=${_MY_SECRET_KEY}"
+      - "SECRET=${_SECRET}"
+      - "TOKEN_VALIDITY=${_TOKEN_VALIDITY}"
+      - "PORT=${_PORT}"
+      - "DB_HOST=${_DB_HOST}"
+      - "DB_PORT=${_DB_PORT}"
+      - "DB_USER=${_DB_USER}"
+      - "DB_PASSWORD=${_DB_PASSWORD}"
+      - "DB_NAME=${_DB_NAME}"
+      - "GCP_INSTANCE_CONNECTION_NAME=${_GCP_INSTANCE_CONNECTION_NAME}"
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy"]
+timeout: "1600s"
