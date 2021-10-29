@@ -1,7 +1,7 @@
 const { Model } = require("objection");
 const Item = require("./item.model");
 const SKU = require("./sku.model");
-const Variant = require("./vaiant.model");
+const Variant = require("./variant.model");
 
 class ItemSKUVariant extends Model {
   static get tableName() {

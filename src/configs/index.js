@@ -1,4 +1,4 @@
-const { cleanEnv, num, str } = require("envalid");
+const { cleanEnv, num, str, any } = require("envalid");
 require("dotenv").config();
 
 const env = cleanEnv(process.env, {
@@ -11,7 +11,6 @@ const env = cleanEnv(process.env, {
   DB_PASSWORD: str(),
   DB_NAME: str(),
   NODE_ENV: str({ default: "development" }),
-  GCP_INSTANCE_CONNECTION_NAME: str({ default: null }),
 });
 
 module.exports = env;

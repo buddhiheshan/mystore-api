@@ -2,7 +2,7 @@ const Category = require("../models/category.model");
 const ItemSKUVariant = require("../models/item-sku-variant.model");
 const Item = require("../models/item.model");
 const SKU = require("../models/sku.model");
-const Variant = require("../models/vaiant.model");
+const Variant = require("../models/variant.model");
 
 const getItem = async (key, value) => {
   const item = await Item.query().where(key, "=", value).first();

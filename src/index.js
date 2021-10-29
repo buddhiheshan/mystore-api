@@ -3,6 +3,7 @@ const ExceptionHandler = require("./common/handlers/exception.handler");
 const RouteNotFoundHandler = require("./common/handlers/route-not-found.handler");
 const env = require("./configs");
 const { knexConnection, initDatabase } = require("./database");
+const cors = require("cors");
 
 // Import Routers
 const HelthCheckRouter = require("./routers/helthCheck.router");
@@ -11,6 +12,8 @@ const CategoryRouter = require("./routers/category.router");
 const ItemsRouter = require("./routers/items.router");
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

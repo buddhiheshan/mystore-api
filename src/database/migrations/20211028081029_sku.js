@@ -7,6 +7,7 @@ exports.up = function (knex) {
     table.integer("price").notNullable();
     table.integer("quantity").notNullable();
     table.integer("discount").notNullable();
+    table.integer("item_id").unsigned().notNullable().references("id").inTable("item");
 
     // timestamps
     table.timestamps(true, true);

@@ -8,7 +8,6 @@ class Item extends Model {
   static get relationMappings() {
     const Category = require("./category.model");
     const SKU = require("./sku.model");
-    const Variant = require("./vaiant.model");
 
     return {
       category: {
@@ -19,31 +18,12 @@ class Item extends Model {
           to: "category.id",
         },
       },
-      variants: {
-        relation: Model.ManyToManyRelation,
-        modelClass: Variant,
-        join: {
-          from: "item.id",
-          through: {
-            from: "item_sku_variant.itemId",
-            extra: ["value"],
-            to: "item_sku_variant.variantId",
-          },
-          to: "variant.id",
-        },
-      },
-
       skus: {
-        relation: Model.ManyToManyRelation,
+        relation: Model.HasManyRelation,
         modelClass: SKU,
         join: {
           from: "item.id",
-          through: {
-            from: "item_sku_variant.itemId",
-            // extra: ["value"],
-            to: "item_sku_variant.skuId",
-          },
-          to: "sku.id",
+          to: "sku.itemId",
         },
       },
     };
