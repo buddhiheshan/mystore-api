@@ -12,12 +12,13 @@ class AuthMiddleware {
   AuthenticationMiddleware() {
     return async (req, res, next) => {
       try {
+
         if (!req.headers.authorization)
           throw new UnauthorizedException(
             "Unauthorized! Please login to proceed."
           );
-        const [method, token] = req.headers.authorization.split(" ");
 
+        const [method, token] = req.headers.authorization.split(" ");
         if (method !== "Bearer")
           throw new UnauthorizedException("Auth type invalid!");
 
@@ -25,6 +26,11 @@ class AuthMiddleware {
           if (err) throw new UnauthorizedException("jwt malformed!");
           return decoded;
         });
+
+        if (typeof decoded.user_id !== 'number') throw new UnauthorizedException(
+          "Unauthorized! Please login to proceed."
+        );
+
         if (!(await this.authService.getUser("id", decoded.user_id)))
           throw new UnauthorizedException(
             "Unauthorized! Please login to proceed."
@@ -40,6 +46,9 @@ class AuthMiddleware {
   AuthorizationMiddleware(rolesAllowed) {
     return async (req, res, next) => {
       try {
+        // ! Need to check user?
+        // if (!req.user) throw new ForbiddenException();
+
         // Get roles of the user
         const roles = await this.authService.getUserRoles(req.user.user_id);
 
