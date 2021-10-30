@@ -1,5 +1,5 @@
 const ConflictException = require("../common/exceptions/ConflictException");
-const { getUser } = require("../services/auth.service");
+const { getUser } = require("../services/auth/auth.service");
 const { postReview, getAllReviews } = require("../services/review.service");
 const { getItemByID } = require("../services/item.service");
 
@@ -8,7 +8,8 @@ const postReviewHandler = async (req, res, next) => {
     // Check if the customerId is valid
     const user = await getUser("id", req.body.customerId);
     if (!user) throw new ConflictException("Customer does not exist!")();
-    if (user.id !== req.user.user_id) throw new ConflictException("Cannot add review for another user!");
+    if (user.id !== req.user.user_id)
+      throw new ConflictException("Cannot add review for another user!");
 
     // Check if itemId is valid
 
