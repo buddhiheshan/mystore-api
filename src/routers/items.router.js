@@ -6,7 +6,7 @@ const { postItem } = require("../validation/item.schema");
 const { postReview } = require("../validation/review.schema");
 const AuthMiddleware = require("../middlewares/auth/auth.middleware");
 const ItemController = require("../controllers/item/item.controller");
-const ReviewController = require("../controllers/category/review.controller");
+const ReviewController = require("../controllers/review/review.controller");
 
 const ItemsRouter = express.Router();
 const authMiddleware = new AuthMiddleware();
