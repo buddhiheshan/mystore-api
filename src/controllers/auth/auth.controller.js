@@ -1,18 +1,10 @@
-const {
-  createUser,
-  getUser,
-  patchUser,
-} = require("../../services/auth/auth.service");
-const UnauthorizedException = require("../../common/exceptions/UnauthorizedException");
 const bcrypt = require("bcrypt");
-
-const ApiException = require("../../common/exceptions/ApiException");
 const jwt = require("jsonwebtoken");
 const env = require("../../configs");
+const UnauthorizedException = require("../../common/exceptions/UnauthorizedException");
 const ConflictException = require("../../common/exceptions/ConflictException");
 const ValidationException = require("../../common/exceptions/ValidationException");
 const getAuthService = require("../../services/auth/auth.service.injection");
-
 class AuthController {
   constructor() {
     this.authService = getAuthService();

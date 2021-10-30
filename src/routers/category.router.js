@@ -1,17 +1,13 @@
 const express = require("express");
-const {
-  postCatergoryHandler,
-  getAllCatergoriesHandler,
-  patchCategoryHandler,
-  deleteCategoryHandler,
-} = require("../controllers/category.controller");
+const CategoryController = require("../controllers/category/category.controller");
+const AuthMiddleware = require("../middlewares/auth/auth.middleware");
 const {
   AuthenticationMiddleware,
-  AuthorizathionMiddleware,
+  AuthorizationMiddleware,
 } = require("../middlewares/auth/auth.middleware");
 const {
   ValidationMiddleware,
-} = require("../middlewares/validation.middleware");
+} = require("../middlewares/validation/validation.middleware");
 const {
   postCategory,
   patchCategory,
@@ -19,31 +15,36 @@ const {
 } = require("../validation/caregory.schema");
 
 const CategoryRouter = express.Router();
+const categoryController = new CategoryController();
+const authMiddleware = new AuthMiddleware();
 
 CategoryRouter.post(
   "/",
-  AuthenticationMiddleware(),
-  AuthorizathionMiddleware(["owner"]),
+  authMiddleware.AuthenticationMiddleware(),
+  authMiddleware.AuthorizationMiddleware(["owner"]),
   ValidationMiddleware(postCategory),
-  postCatergoryHandler
+  categoryController.postCatergoryHandler()
 );
 
-CategoryRouter.get("/", getAllCatergoriesHandler);
+CategoryRouter.get(
+  "/",
+  categoryController.getAllCatergoriesHandler()
+);
 
 CategoryRouter.patch(
   "/",
-  AuthenticationMiddleware(),
-  AuthorizathionMiddleware(["owner"]),
+  authMiddleware.AuthenticationMiddleware(),
+  authMiddleware.AuthorizationMiddleware(["owner"]),
   ValidationMiddleware(patchCategory),
-  patchCategoryHandler
+  categoryController.patchCategoryHandler()
 );
 
 CategoryRouter.delete(
   "/",
-  AuthenticationMiddleware(),
-  AuthorizathionMiddleware(["owner"]),
+  authMiddleware.AuthenticationMiddleware(),
+  authMiddleware.AuthorizationMiddleware(["owner"]),
   ValidationMiddleware(deleteCategory),
-  deleteCategoryHandler
+  categoryController.deleteCategoryHandler()
 );
 
 // CategoryRouter.get("/:categoryID");

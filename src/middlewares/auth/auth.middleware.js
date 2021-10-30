@@ -5,47 +5,56 @@ const env = require("../../configs");
 const User = require("../../models/user.model");
 const getAuthService = require("../../services/auth/auth.service.injection");
 
-const AuthenticationMiddleware =
-  (authService = getAuthService()) =>
-  async (req, res, next) => {
-    try {
-      if (!req.headers.authorization)
-        throw new UnauthorizedException(
-          "Unauthorized! Please login to proceed."
-        );
-      const [method, token] = req.headers.authorization.split(" ");
-
-      if (method !== "Bearer")
-        throw new UnauthorizedException("Auth type invalid!");
-
-      const decoded = jwt.verify(token, env.SECRET, (err, decoded) => {
-        if (err) throw new UnauthorizedException("jwt malformed!");
-        return decoded;
-      });
-      if (!(await authService.getUser("id", decoded.user_id)))
-        throw new UnauthorizedException(
-          "Unauthorized! Please login to proceed."
-        );
-      req.user = decoded;
-      next();
-    } catch (error) {
-      next(error);
-    }
-  };
-
-const AuthorizathionMiddleware = (rolesAllowed) => async (req, res, next) => {
-  try {
-    // Get roles of the user
-    const roles = await getUserRoles(req.user.user_id);
-
-    // Check if the role is in the allowed roles
-    const matchedRoles = roles.some((role) => rolesAllowed.includes(role));
-    if (!matchedRoles) throw new ForbiddenException();
-
-    next();
-  } catch (error) {
-    next(error);
+class AuthMiddleware {
+  constructor() {
+    this.authService = getAuthService()
   }
-};
+  AuthenticationMiddleware() {
+    return async (req, res, next) => {
+      try {
+        if (!req.headers.authorization)
+          throw new UnauthorizedException(
+            "Unauthorized! Please login to proceed."
+          );
+        const [method, token] = req.headers.authorization.split(" ");
 
-module.exports = { AuthenticationMiddleware, AuthorizathionMiddleware };
+        if (method !== "Bearer")
+          throw new UnauthorizedException("Auth type invalid!");
+
+        const decoded = jwt.verify(token, env.SECRET, (err, decoded) => {
+          if (err) throw new UnauthorizedException("jwt malformed!");
+          return decoded;
+        });
+        if (!(await this.authService.getUser("id", decoded.user_id)))
+          throw new UnauthorizedException(
+            "Unauthorized! Please login to proceed."
+          );
+        req.user = decoded;
+        next();
+      } catch (error) {
+        next(error);
+      }
+    };
+  }
+
+  AuthorizationMiddleware(rolesAllowed) {
+    return async (req, res, next) => {
+      try {
+        // Get roles of the user
+        const roles = await this.authService.getUserRoles(req.user.user_id);
+
+        // Check if the role is in the allowed roles
+        const matchedRoles = roles.some((role) => rolesAllowed.includes(role));
+        if (!matchedRoles) throw new ForbiddenException();
+
+        next();
+      } catch (error) {
+        next(error);
+      }
+    };
+  }
+
+}
+
+
+module.exports = AuthMiddleware;

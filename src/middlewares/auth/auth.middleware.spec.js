@@ -4,6 +4,9 @@ const { AuthenticationMiddleware } = require("./auth.middleware");
 const jwt = require("jsonwebtoken");
 const env = require("../../configs");
 const getAuthService = require("../../services/auth/auth.service.injection");
+const AuthMiddleware = require("./auth.middleware");
+
+const authMiddleware = new AuthMiddleware();
 
 describe("Authentication Middleware", () => {
   it("should throw 404 when request doesnt have auth headers!", async () => {
@@ -14,7 +17,7 @@ describe("Authentication Middleware", () => {
     const expected = new UnauthorizedException(
       "Unauthorized! Please login to proceed."
     );
-    await AuthenticationMiddleware()(req, res, next);
+    await authMiddleware.AuthenticationMiddleware()(req, res, next);
     expect(next).toHaveBeenCalledWith(expected);
   });
 
@@ -26,7 +29,7 @@ describe("Authentication Middleware", () => {
     req.headers.authorization = `Basic fsdlfjsdfjklsdjflsdjfklsd`;
 
     const expected = new UnauthorizedException();
-    await AuthenticationMiddleware()(req, res, next);
+    await authMiddleware.AuthenticationMiddleware()(req, res, next);
     expect(next).toHaveBeenCalledWith(expected);
   });
 
@@ -38,7 +41,7 @@ describe("Authentication Middleware", () => {
     req.headers.authorization = `Bearer fsdffsdljflsdjfklsdjfklsdjfklsdfjklsdjflsdjfkl`;
 
     const expected = new UnauthorizedException();
-    await AuthenticationMiddleware()(req, res, next);
+    await authMiddleware.AuthenticationMiddleware()(req, res, next);
     expect(next).toHaveBeenCalledWith(expected);
   });
 
@@ -57,12 +60,11 @@ describe("Authentication Middleware", () => {
     // set header
     req.headers.authorization = `Bearer ${validToken}`;
 
-    const fakeAuthService = getAuthService();
-    fakeAuthService.getUser.mockReturnValueOnce(user);
-    await AuthenticationMiddleware(fakeAuthService)(req, res, next);
-    expect(fakeAuthService.getUser.mock.calls.length).toBe(1);
-    expect(fakeAuthService.getUser.mock.calls[0][0]).toBe("id");
-    expect(fakeAuthService.getUser.mock.results[0].value).toBe(user);
+    authMiddleware.authService.getUser.mockReturnValueOnce(user);
+    await authMiddleware.AuthenticationMiddleware()(req, res, next);
+    expect(authMiddleware.authService.getUser.mock.calls.length).toBe(1);
+    expect(authMiddleware.authService.getUser.mock.calls[0][0]).toBe("id");
+    expect(authMiddleware.authService.getUser.mock.results[0].value).toBe(user);
     expect(next).toHaveBeenCalledWith();
     expect(req.user.user_id).toBe(user.id);
   });

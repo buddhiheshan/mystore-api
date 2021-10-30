@@ -1,7 +1,10 @@
 const express = require("express");
 const ExceptionHandler = require("./common/handlers/exception.handler");
 const RouteNotFoundHandler = require("./common/handlers/route-not-found.handler");
-const { knexConnection, initDatabase } = require("./database");
+const {
+  knexConnection,
+  initDatabase
+} = require("./database");
 const cors = require("cors");
 
 // Import Routers

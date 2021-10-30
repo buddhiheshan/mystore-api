@@ -1,51 +1,53 @@
 const express = require("express");
 const {
-  createItemHandler,
-  getAllItemsHandler,
-  getItemHandler,
-} = require("../controllers/item.controller");
-const {
-  AuthenticationMiddleware,
-  AuthorizathionMiddleware,
-} = require("../middlewares/auth/auth.middleware");
-const {
   ValidationMiddleware,
-} = require("../middlewares/validation.middleware");
+} = require("../middlewares/validation/validation.middleware");
 const { postItem } = require("../validation/item.schema");
-const {
-  postReviewHandler,
-  getAllReviewsHandler,
-} = require("../controllers/review.controller");
 const { postReview } = require("../validation/review.schema");
+const AuthMiddleware = require("../middlewares/auth/auth.middleware");
+const ItemController = require("../controllers/item/item.controller");
+const ReviewController = require("../controllers/category/review.controller");
 
 const ItemsRouter = express.Router();
+const authMiddleware = new AuthMiddleware();
+const itemController = new ItemController();
+const reviewController = new ReviewController();
 
 //  / Routes
 ItemsRouter.post(
   "/",
-  AuthenticationMiddleware(),
-  AuthorizathionMiddleware(["owner"]),
+  authMiddleware.AuthenticationMiddleware(),
+  authMiddleware.AuthorizationMiddleware(["owner"]),
   ValidationMiddleware(postItem),
-  createItemHandler
+  itemController.createItemHandler()
 );
 
-ItemsRouter.get("/", getAllItemsHandler);
+ItemsRouter.get(
+  "/",
+  itemController.getAllItemsHandler()
+);
 
 // /:itemId Routes
-ItemsRouter.get("/:itemId", getItemHandler);
+ItemsRouter.get(
+  "/:itemId",
+  itemController.getItemHandler()
+);
 
 // !TODO: /:itemId PATCH and DELETE
 
 // !TODO: Allow review placing only after order purchased
 ItemsRouter.post(
   "/:itemId/reviews",
-  AuthenticationMiddleware(),
-  AuthorizathionMiddleware(["customer"]),
+  authMiddleware.AuthenticationMiddleware(),
+  authMiddleware.AuthorizationMiddleware(["customer"]),
   ValidationMiddleware(postReview),
-  postReviewHandler
+  reviewController.postReviewHandler()
 );
 
-ItemsRouter.get("/:itemId/reviews", getAllReviewsHandler);
+ItemsRouter.get(
+  "/:itemId/reviews",
+  reviewController.getAllReviewsHandler()
+);
 
 // !TODO: /:itemId/review/ PATCH and DELETE
 

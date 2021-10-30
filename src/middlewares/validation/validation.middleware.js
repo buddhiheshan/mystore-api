@@ -1,4 +1,4 @@
-const ValidationException = require("../common/exceptions/ValidationException");
+const ValidationException = require("../../common/exceptions/ValidationException");
 
 const ValidationMiddleware = (schema) => async (req, res, next) => {
   try {
