@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const Role = require("../../models/role.model");
 const User = require("../../models/user.model");
 
@@ -28,6 +29,10 @@ class AuthService {
   async patchUser(userId, data) {
     const user = await User.query().patchAndFetchById(userId, data);
     return user;
+  }
+
+  async comparePassword(password, hash) {
+    return await bcrypt.compare(password, hash);
   }
 }
 module.exports = AuthService;

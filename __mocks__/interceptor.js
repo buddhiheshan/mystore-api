@@ -7,10 +7,11 @@ module.exports = {
     return req;
   },
   mockResponse: () => {
-    const res = {};
+    let res = {};
     res.send = jest.fn().mockReturnValue(res);
     res.status = jest.fn().mockReturnValue(res);
-    res.json = jest.fn().mockReturnValue(res);
+    res.json = jest.fn().mockImplementation((data) => res.body = data);
+
     return res;
   },
   mockNext: () => jest.fn(),

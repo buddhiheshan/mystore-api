@@ -46,8 +46,8 @@ class AuthMiddleware {
   AuthorizationMiddleware(rolesAllowed) {
     return async (req, res, next) => {
       try {
-        // ! Need to check user?
-        // if (!req.user) throw new ForbiddenException();
+
+        if (!req.user) throw new ForbiddenException();
 
         // Get roles of the user
         const roles = await this.authService.getUserRoles(req.user.user_id);

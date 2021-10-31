@@ -47,7 +47,9 @@ class CategoryController {
       try {
         //   Check if category already exist
         if (!(await this.categoryService.getCategory("id", req.body.id))) throw new ConflictException("Category does not exist!");
+        console.log("asd");
         if (await this.categoryService.getCategory("name", req.body.name)) throw new ConflictException("Category already exist!");
+        console.log("asd");
 
         // Patch category
         const category = await this.categoryService.patchCategory(req.body);

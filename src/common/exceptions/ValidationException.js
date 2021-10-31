@@ -4,7 +4,6 @@ const ApiException = require("./ApiException");
 
 class ValidationException extends ApiException {
   constructor(errors) {
-    console.log(errors);
     const validationSanitized = errors.map((err) => {
       return err.message;
     });

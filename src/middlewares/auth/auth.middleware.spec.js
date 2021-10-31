@@ -97,16 +97,17 @@ describe("Auth Middleware", () => {
   });
 
   describe('Authorization Middleware', () => {
-    // it("should failed if request user is not defined", () => {
-    //   const req = interceptor.mockRequest();
-    //   const res = interceptor.mockResponse();
-    //   const next = interceptor.mockNext();
+    it("should failed if request user is not defined", () => {
+      const authMiddleware = new AuthMiddleware();
+      const req = interceptor.mockRequest();
+      const res = interceptor.mockResponse();
+      const next = interceptor.mockNext();
 
-    //   authMiddleware.AuthorizationMiddleware(["invalid"])(req, res, next);
-    //   const expected = new ForbiddenException();
+      authMiddleware.AuthorizationMiddleware(["invalid"])(req, res, next);
+      const expected = new ForbiddenException();
 
-    //   expect(next).toHaveBeenCalledWith(expected);
-    // });
+      expect(next).toHaveBeenCalledWith(expected);
+    });
 
     it("should throw 409 if user role is not in accepted roles", async () => {
       const authMiddleware = new AuthMiddleware();

@@ -45,18 +45,15 @@ class AuthController {
         // Check if the user exits
         if (!user)
           throw new UnauthorizedException("Invalid email or password!");
-
         // Check if the password match
-        if (!(await bcrypt.compare(req.body.password, user.password)))
+        if (!(await this.authService.comparePassword(req.body.password, user.password)))
           throw new UnauthorizedException("Invalid email or password!");
 
         // Generate jwt token
         const token = jwt.sign({ user_id: user.id }, env.SECRET, {
           expiresIn: env.TOKEN_VALIDITY,
         });
-
         const roles = user.roles.map((role) => role.name);
-
         const data = {
           firstName: user.firstName,
           lastName: user.lastName,
@@ -99,7 +96,7 @@ class AuthController {
     return async (req, res, next) => {
       try {
         const data = await this.authService.getUser("id", req.user.user_id);
-        res.status(201).json({
+        res.status(200).json({
           message: `User updated!`,
           success: true,
           data,

@@ -1,5 +1,3 @@
-const { JsonWebTokenError } = require("jsonwebtoken")
-
 class FakeItemService {
     getItem = jest.fn();
     createItem = jest.fn();

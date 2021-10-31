@@ -12,7 +12,6 @@ HelthCheckRouter.get("/", async (req, res, next) => {
       status: "up",
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       module: "database",
       status: "down",
